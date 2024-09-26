@@ -1,14 +1,19 @@
+
+import "google/protobuf/timestamp.proto";
+
 syntax = "proto3";
 
 service SimpleService {
-  rpc Add (AddRequest) returns (AddResponse);
+  rpc Estadistica (EstadisticaRequest) returns (EstadisticaResponse);
 }
 
-message AddRequest {
-  int32 number1 = 1;
-  int32 number2 = 2;
+message EstadisticaRequest {
+  string tareas = 1;
 }
 
-message AddResponse {
-  int32 result = 1;
+message EstadisticaResponse {
+  double cantidad = 1;
+  double cantidad_realizadas = 2;
+  double cantidad_hoy = 3;
+  double cantidad_prioridad_alta = 4;
 }
