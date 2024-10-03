@@ -3,6 +3,7 @@ import grpc from '@grpc/grpc-js';
 import protoLoader from '@grpc/proto-loader';
 import path from 'path';
 import Task from '../models/tasks.js';
+import mongoose from 'mongoose';
 
 const router = Router();
 
@@ -52,6 +53,7 @@ router.post('/', async (req, res) => {
         res.status(503).send();
     }
 })
+
 router.get('/estadistics', async (req, res) => {
     try {
 
@@ -76,5 +78,41 @@ router.get('/estadistics', async (req, res) => {
         res.status(503).send();
     }
 })
+
+router.post('/:id/realizada', async (req, res) => {
+    try {
+        const id = req.params;
+        const id_decode = new mongoose.Types.ObjectId(id)
+        
+        const result = await Task.updateOne({_id: id_decode}, {realizada: true})
+        console.log(result)
+        res.send()
+    }
+    catch(err) {
+        console.log(err)
+        res.status(503).send()
+    }
+})
+router.post('/:id/prioridad', async (req, res) => {
+    try {
+        const {
+            prioridad
+        } = req.body
+        const id = req.params;
+        if(!prioridad) return res.status(503).send()
+        if(prioridad != "BAJA" && prioridad != "ALTA") return res.status(503).send()
+
+        const id_decode = new mongoose.Types.ObjectId(id)
+        
+        const result = await Task.updateOne({_id: id_decode}, {prioridad})
+        console.log(result)
+        res.send()
+    }
+    catch(err) {
+        console.log(err)
+        res.status(503).send()
+    }
+})
+
 
 export default router

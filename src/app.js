@@ -9,6 +9,7 @@ const app = express();
 ConectarDB();
 
 
+app.use(express.json())
 app.use(cors());
 
 app.use('/tasks', tasks)
